@@ -9,7 +9,7 @@ _A jQuery plugin to make your table columns resizable_
 * Resize columns in table
 * Super Light: just 0.9kb
 
-[Demo](https://koqiui/jquery-resizable-cols/demo/index.html) | [JsFiddle](https://jsfiddle.net/koqiui/17kdea4x/)
+[Demo](https://github.com/koqiui/jquery-resizable-cols/demo/index.html) | [JsFiddle](https://jsfiddle.net/koqiui/17kdea4x/)
 
 Fork From https://github.com/Jo-Geek/jQuery-ResizableColumns
 
