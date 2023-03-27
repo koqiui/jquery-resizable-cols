@@ -38,7 +38,22 @@ Note Changes : change the behavior like Excels.
 ```
 Invoke plugin on the above table
 ```javascript
+// 普通用法
 $('#tbResizable').resizableColumns();
+
+// 清除副作用（事件等）
+$('#tbResizable').resizableColumns({
+                destroy: true
+            });
+            
+// 监听大小调整事件（便于定制处理逻辑）
+$('#tbResizable').resizableColumns({
+                name : 'xxxx',
+                resized : function(name){
+                   //如果没有指定name，这里得到的是 table的id
+                   console.log('adjusted table : ' + name);
+                }
+            });
 ```
 
 ## Important
