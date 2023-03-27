@@ -11,13 +11,13 @@
         var _tableDom = $(this).get(0);
         //
         var _thead = $(this).find('thead').first();
-
+        var _theadRow = _thead.find('tr').last();
         if (_destroy) {
-            _thead.find('th').each(function () {
+            _theadRow.find('th').each(function () {
                 $(this).find('div.resizer').remove();
             })
         } else {
-            _thead.find('th').each(function () {
+            _theadRow.find('th').each(function () {
                 $(this).css('position', 'relative');
                 if ($(this).is(':not(.no-resize)')) {
                     if ($(this).find('div.resizer').length == 0) {
@@ -34,7 +34,7 @@
         }
         if (!_destroy) {
             _tableDom.handler_doc_mouseup = function (e) {
-                _thead.find('th').removeClass('resizing');
+                _theadRow.find('th').removeClass('resizing');
                 isColResizing = false;
                 e.stopPropagation();
                 //
@@ -52,8 +52,8 @@
         if (!_destroy) {
             _resizers.bind('mousedown', function (e) {
                 if (e.button == 0) {
-                    _thead.find('th').removeClass('resizing');
-                    _thead.find('tr:first-child th:nth-child(' + ($(this).closest('th').index() + 1) + ') .resizer').closest('th').addClass('resizing');
+                    _theadRow.find('th').removeClass('resizing');
+                    _theadRow.find('th:nth-child(' + ($(this).closest('th').index() + 1) + ') .resizer').closest('th').addClass('resizing');
                     resizingPosX = e.pageX;
                     isColResizing = true;
                 }
@@ -73,16 +73,16 @@
         if (!_destroy) {
             _tableDom.handler_mousemove = function (e) {
                 if (isColResizing) {
-                    var _resizing = _thead.find('th.resizing .resizer');
+                    var _resizing = _theadRow.find('th.resizing .resizer');
                     if (_resizing.length == 1) {
                         var _pageX = e.pageX || 0;
                         var _widthDiff = _pageX - resizingPosX;
                         var _setWidth = _resizing.closest('th').innerWidth() + _widthDiff;
-                        var _tableWidth = _table.innerWidth() + _widthDiff;
+                        var _tableWidth = _table.width() + _widthDiff;
                         if (resizingPosX != 0 && _widthDiff != 0 && _setWidth > 50 && _tableWidth > 100) {
                             _resizing.closest('th').innerWidth(_setWidth);
                             resizingPosX = e.pageX;
-                            _table.innerWidth(_tableWidth);
+                            _table.width(_tableWidth);
                         }
                         //
                         lastResizedColumns_table = _tableDom;
@@ -90,6 +90,13 @@
                 }
             };
             _table.bind('mousemove', _tableDom.handler_mousemove);
+        }
+
+        if (!_destroy) {
+            var tableWidth = _tableDom.style.width;
+            if (!tableWidth) {
+                _tableDom.style.width = _table.width() + 'px';
+            }
         }
     };
 }
