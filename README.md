@@ -1,6 +1,9 @@
 # jquery-resizable-cols
 _A jQuery plugin to make your table columns resizable_
 
+#### 与原版不同
+* 这里的表格列的大小调整类似于Excel或普通期望的列宽调整（不同于原版的表格宽度固定，仅能调整相邻的列宽），更符合常规需求和场景
+
 
 #### Update v1.1.0
 * Works with two rows in `<thead>` tag. Resizing is applied only to the first header row.
