@@ -7,6 +7,7 @@
         //
         var isColResizing = false;
         var resizingPosX = 0;
+        var resizedWidth = 0;
         var _table = $(this);
         var _tableDom = $(this).get(0);
         //
@@ -52,10 +53,13 @@
         if (!_destroy) {
             _resizers.bind('mousedown', function (e) {
                 if (e.button == 0) {
-                    _theadRow.find('th').removeClass('resizing');
-                    _theadRow.find('th:nth-child(' + ($(this).closest('th').index() + 1) + ') .resizer').closest('th').addClass('resizing');
-                    resizingPosX = e.pageX;
                     isColResizing = true;
+                    //
+                    _theadRow.find('th').removeClass('resizing');
+                    var _resizing = _theadRow.find('th:nth-child(' + ($(this).closest('th').index() + 1) + ') .resizer');
+                    _resizing.closest('th').addClass('resizing');
+                    resizingPosX = e.pageX;
+                    resizedWidth = _resizing.closest('th').innerWidth();
                 }
                 e.stopPropagation();
                 //
@@ -77,11 +81,15 @@
                     if (_resizing.length == 1) {
                         var _pageX = e.pageX || 0;
                         var _widthDiff = _pageX - resizingPosX;
-                        var _setWidth = _resizing.closest('th').innerWidth() + _widthDiff;
-                        var _tableWidth = _table.width() + _widthDiff;
-                        if (resizingPosX != 0 && _widthDiff != 0 && _setWidth > 50 && _tableWidth > 100) {
-                            _resizing.closest('th').innerWidth(_setWidth);
+                        //var _setWidth = _resizing.closest('th').innerWidth() + _widthDiff;
+                        var _setWidth = resizedWidth + _widthDiff;
+                        //console.log('_pageX : ', _pageX, '_widthDiff : ', _widthDiff, '');
+                        if (_widthDiff != 0 && _setWidth > 50) {
                             resizingPosX = e.pageX;
+                            resizedWidth = _setWidth;
+                            //
+                            _resizing.closest('th').innerWidth(_setWidth);
+                            var _tableWidth = _table.width() + _widthDiff;
                             _table.width(_tableWidth);
                         }
                         //
